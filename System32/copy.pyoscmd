@@ -1,0 +1,11 @@
+import shutil
+
+def move_file(src, dest):
+    try:
+        shutil.move(src, dest)
+        print(f"File moved from {src} to {dest}")
+    except Exception as e:
+        print(f"Error moving file: {e}")
+
+# Call the function with source and destination paths
+move_file("Z:\\PY_OS\\Documents\\new_file.txt", "Z:\\PY_OS\\Documents\\moved_file.txt")

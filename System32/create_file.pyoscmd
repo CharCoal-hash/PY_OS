@@ -1,0 +1,6 @@
+import os
+
+print("Directories in Z:\\:")
+for f in os.listdir("Z:\\"):
+    if os.path.isdir(os.path.join("Z:\\", f)):
+        print(f)

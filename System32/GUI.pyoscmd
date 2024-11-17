@@ -1,0 +1,59 @@
+# GUI.pyoscmd
+# GUI for PY_OS using Tkinter
+
+import tkinter as tk
+import os
+
+# Path where the .pyoscmd files are located
+command_path = "Z:\\PY_OS\\System32"
+
+def execute_command():
+    command = command_input.get().strip()
+
+    # Check if the user wants to exit
+    if command.lower() == 'exit':
+        window.quit()
+        return
+
+    command_file = f"{command_path}\\{command}.pyoscmd"
+    output_box.insert(tk.END, f"Testing command: {command}...\n")
+
+    if os.path.exists(command_file):
+        output_box.insert(tk.END, f"Command {command} found, testing execution...\n")
+        try:
+            with open(command_file, 'r') as file:
+                code = file.read()
+                output_box.insert(tk.END, f"Executing code from {command_file}:\n")
+                output_box.insert(tk.END, f"{code}\n")
+                exec(code)
+                output_box.insert(tk.END, f"Executed {command_file} successfully!\n")
+        except Exception as e:
+            output_box.insert(tk.END, f"Error executing {command_file}: {e}\n")
+    else:
+        output_box.insert(tk.END, f"Invalid command or file not found: {command}\n")
+
+    output_box.yview(tk.END)
+
+def clear_output():
+    output_box.delete(1.0, tk.END)
+
+window = tk.Tk()
+window.title("PY_OS GUI")
+window.geometry("600x400")
+
+output_box = tk.Text(window, height=15, width=70)
+output_box.pack(padx=10, pady=10)
+
+command_input = tk.Entry(window, width=60)
+command_input.pack(padx=10, pady=5)
+
+run_button = tk.Button(window, text="Run Command", command=execute_command)
+run_button.pack(pady=5)
+
+clear_button = tk.Button(window, text="Clear Output", command=clear_output)
+clear_button.pack(pady=5)
+
+exit_button = tk.Button(window, text="Exit", command=window.quit)
+exit_button.pack(pady=5)
+
+window.mainloop()

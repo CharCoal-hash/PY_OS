@@ -1,0 +1,11 @@
+import shutil
+
+def copy_file(src, dest):
+    try:
+        shutil.copy(src, dest)
+        print(f"File copied from {src} to {dest}")
+    except Exception as e:
+        print(f"Error copying file: {e}")
+
+# Call the function with source and destination paths
+copy_file("Z:\\PY_OS\\Documents\\new_file.txt", "Z:\\PY_OS\\Documents\\copy_of_file.txt")

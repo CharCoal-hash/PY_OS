@@ -1,0 +1,11 @@
+import os
+
+def delete_file(file_path):
+    try:
+        os.remove(file_path)
+        print(f"File {file_path} deleted.")
+    except Exception as e:
+        print(f"Error deleting file: {e}")
+
+# Call the function with the file to delete
+delete_file("Z:\\PY_OS\\Temp\\tempfile.txt")

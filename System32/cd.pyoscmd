@@ -1,0 +1,14 @@
+import os
+
+# Simulate changing directory functionality
+def cd(path):
+    try:
+        os.chdir(path)
+        print(f"Changed directory to {path}")
+    except FileNotFoundError:
+        print(f"Directory {path} not found.")
+    except NotADirectoryError:
+        print(f"{path} is not a directory.")
+
+# Call the function with user input
+cd("Z:\\PY_OS")

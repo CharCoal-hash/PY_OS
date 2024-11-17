@@ -1,0 +1,44 @@
+import os
+
+# Path where the .pyoscmd files are located
+command_path = "Z:\\PY_OS\\System32"
+
+# Initialize the kernel
+def run_kernel():
+    print("PY_OS Kernel Initialized")
+    print("Type 'exit' to shut down.")
+    
+    while True:
+        # Prompt the user for input
+        command = input("Enter command (.pyoscmd): ").strip()
+        
+        # Check if the user wants to exit
+        if command.lower() == 'exit':
+            print("Shutting down PY_OS...")
+            break
+        
+        # Append the .pyoscmd extension to the command
+        command_file = f"{command_path}\\{command}.pyoscmd"
+        
+        # Testing the command
+        print(f"Testing command: {command}...")
+        
+        # Check if the file exists
+        if os.path.exists(command_file):
+            print(f"Command {command} found, testing execution...")
+
+            try:
+                # Execute the .pyoscmd file
+                with open(command_file, 'r') as file:
+                    code = file.read()
+                    print(f"Executing code from {command_file}:")
+                    print(code)
+                    exec(code)
+                    print(f"Executed {command_file} successfully!")
+            except Exception as e:
+                print(f"Error executing {command_file}: {e}")
+        else:
+            print(f"Invalid command or file not found: {command}")
+    
+# Run the kernel
+run_kernel()

@@ -1,0 +1,7 @@
+import os
+
+# List files in the Z:\ directory
+files = os.listdir("Z:\\")
+print("Files in Z:\\:")
+for file in files:
+    print(file)
