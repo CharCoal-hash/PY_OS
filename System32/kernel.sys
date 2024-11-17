@@ -1,58 +1,74 @@
-import os
 import subprocess
+import sys
+import os
+import time
 
-# List of commands and applications to test
-commands_and_apps = [
-    'list_files.pyoscmd',
-    'cd.pyoscmd',
-    'mkdir.pyoscmd',
-    'del.pyoscmd',
-    'create_file.pyoscmd',
-    'list_dirs.pyoscmd',
-    'copy.pyoscmd',
-    'move.pyoscmd',
-    'sysinfo.pyoscmd',
-    'text_editor.pyoscmd',
-    'browser.pyoscmd',
-    'file_manager.pyoscmd',
-    'system_monitor.pyoscmd',
-    'calculator.pyoscmd'
-]
-
-def test_command(command):
-    """Test if the command or application can be executed"""
+# Function to run the commands
+def run_command(command):
     try:
-        # Check if file exists first
-        if not os.path.isfile(f"Z:\\PY_OS\\System32\\{command}"):
-            print(f"[FAILED] {command} not found.")
-            return False
-        # Try running the command to see if it's executable
-        result = subprocess.run([f"Z:\\PY_OS\\System32\\{command}"], capture_output=True, text=True)
-        if result.returncode == 0:
+        if command.endswith('.pyoscmd'):
+            print(f"Running: {command}")
+            # Execute the .pyoscmd file using the Python interpreter
+            result = subprocess.run([sys.executable, command], check=True, capture_output=True, text=True)
             print(f"[OK] {command} executed successfully.")
-            return True
+            print(f"Output: {result.stdout}")
         else:
-            print(f"[FAILED] {command} encountered an error: {result.stderr}")
-            return False
-    except Exception as e:
-        print(f"[FAILED] Error testing {command}: {str(e)}")
-        return False
+            print(f"[FAILED] {command} is not a valid .pyoscmd file.")
+    except subprocess.CalledProcessError as e:
+        print(f"[FAILED] Error executing {command}: {e}")
+        print(f"Error Output: {e.stderr}")
 
-def test_all_apps_and_commands():
-    """Test all commands and apps"""
-    print("Testing PY_OS components...")
+# Function to run tests for all commands and applications
+def test_commands_and_apps():
+    print("Testing PY_OS components...\n")
     
-    # Loop through all commands and test each one
-    for command in commands_and_apps:
+    commands = [
+        'list_files.pyoscmd',
+        'cd.pyoscmd',
+        'mkdir.pyoscmd',
+        'del.pyoscmd',
+        'create_file.pyoscmd',
+        'list_dirs.pyoscmd',
+        'copy.pyoscmd',
+        'move.pyoscmd',
+        'sysinfo.pyoscmd',
+        'text_editor.pyoscmd',
+        'browser.pyoscmd',
+        'file_manager.pyoscmd',
+        'system_monitor.pyoscmd',
+        'calculator.pyoscmd'
+    ]
+
+    for command in commands:
         print(f"Testing {command}...")
-        test_command(command)
+        run_command(command)
+        time.sleep(1)  # Short delay between tests for readability
 
-def start_kernel():
-    """Start the PY_OS Kernel and perform tests"""
+# Function to initialize the kernel and perform the testing
+def initialize_kernel():
     print("PY_OS Kernel Initializing...")
-    test_all_apps_and_commands()
-    print("\nInitialization Complete. Enter command (.pyoscmd): ")
+    time.sleep(1)
+    
+    # Testing all commands and apps before everything initializes
+    test_commands_and_apps()
+    
+    # Print completion message
+    print("\nInitialization Complete. Enter command (.pyoscmd):")
 
-# Call the kernel start function
-start_kernel()
+# Function to handle command input
+def handle_command_input():
+    while True:
+        command = input("Enter command (.pyoscmd): ").strip()
+        
+        if command == 'exit':
+            print("Shutting down PY_OS...")
+            break
+        elif command:
+            run_command(command)
+        else:
+            print("No command entered. Please try again.")
 
+# Start kernel
+if __name__ == "__main__":
+    initialize_kernel()
+    handle_command_input()
