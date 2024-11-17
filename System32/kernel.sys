@@ -1,44 +1,58 @@
 import os
+import subprocess
 
-# Path where the .pyoscmd files are located
-command_path = "Z:\\PY_OS\\System32"
+# List of commands and applications to test
+commands_and_apps = [
+    'list_files.pyoscmd',
+    'cd.pyoscmd',
+    'mkdir.pyoscmd',
+    'del.pyoscmd',
+    'create_file.pyoscmd',
+    'list_dirs.pyoscmd',
+    'copy.pyoscmd',
+    'move.pyoscmd',
+    'sysinfo.pyoscmd',
+    'text_editor.pyoscmd',
+    'browser.pyoscmd',
+    'file_manager.pyoscmd',
+    'system_monitor.pyoscmd',
+    'calculator.pyoscmd'
+]
 
-# Initialize the kernel
-def run_kernel():
-    print("PY_OS Kernel Initialized")
-    print("Type 'exit' to shut down.")
-    
-    while True:
-        # Prompt the user for input
-        command = input("Enter command (.pyoscmd): ").strip()
-        
-        # Check if the user wants to exit
-        if command.lower() == 'exit':
-            print("Shutting down PY_OS...")
-            break
-        
-        # Append the .pyoscmd extension to the command
-        command_file = f"{command_path}\\{command}.pyoscmd"
-        
-        # Testing the command
-        print(f"Testing command: {command}...")
-        
-        # Check if the file exists
-        if os.path.exists(command_file):
-            print(f"Command {command} found, testing execution...")
-
-            try:
-                # Execute the .pyoscmd file
-                with open(command_file, 'r') as file:
-                    code = file.read()
-                    print(f"Executing code from {command_file}:")
-                    print(code)
-                    exec(code)
-                    print(f"Executed {command_file} successfully!")
-            except Exception as e:
-                print(f"Error executing {command_file}: {e}")
+def test_command(command):
+    """Test if the command or application can be executed"""
+    try:
+        # Check if file exists first
+        if not os.path.isfile(f"Z:\\PY_OS\\System32\\{command}"):
+            print(f"[FAILED] {command} not found.")
+            return False
+        # Try running the command to see if it's executable
+        result = subprocess.run([f"Z:\\PY_OS\\System32\\{command}"], capture_output=True, text=True)
+        if result.returncode == 0:
+            print(f"[OK] {command} executed successfully.")
+            return True
         else:
-            print(f"Invalid command or file not found: {command}")
+            print(f"[FAILED] {command} encountered an error: {result.stderr}")
+            return False
+    except Exception as e:
+        print(f"[FAILED] Error testing {command}: {str(e)}")
+        return False
+
+def test_all_apps_and_commands():
+    """Test all commands and apps"""
+    print("Testing PY_OS components...")
     
-# Run the kernel
-run_kernel()
+    # Loop through all commands and test each one
+    for command in commands_and_apps:
+        print(f"Testing {command}...")
+        test_command(command)
+
+def start_kernel():
+    """Start the PY_OS Kernel and perform tests"""
+    print("PY_OS Kernel Initializing...")
+    test_all_apps_and_commands()
+    print("\nInitialization Complete. Enter command (.pyoscmd): ")
+
+# Call the kernel start function
+start_kernel()
+
