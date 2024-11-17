@@ -1,51 +1,55 @@
-import tkinter as tk
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLineEdit, QPushButton, QGridLayout
+from PyQt5.QtCore import Qt  # Import Qt for alignment constants
 
-class Calculator:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Calculator")
-        self.root.geometry("400x600")
+class Calculator(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
 
-        # Entry widget for displaying input/output
-        self.display = tk.Entry(self.root, font=("Arial", 24), bd=10, relief="sunken", justify="right")
-        self.display.grid(row=0, column=0, columnspan=4)
+    def initUI(self):
+        self.setWindowTitle("PyQt5 Calculator")
+        self.setGeometry(100, 100, 300, 400)
 
-        # Define buttons
+        # Display area
+        self.display = QLineEdit(self)
+        self.display.setReadOnly(True)
+        self.display.setAlignment(Qt.AlignRight)  # Align text to the right
+        self.display.setStyleSheet("font-size: 20px;")
+
+        # Button grid
+        grid_layout = QGridLayout()
         buttons = [
-            ('7', 1, 0), ('8', 1, 1), ('9', 1, 2), ('/', 1, 3),
-            ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3),
-            ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3),
-            ('0', 4, 0), ('.', 4, 1), ('=', 4, 2), ('+', 4, 3)
+            ('7', 0, 0), ('8', 0, 1), ('9', 0, 2), ('/', 0, 3),
+            ('4', 1, 0), ('5', 1, 1), ('6', 1, 2), ('*', 1, 3),
+            ('1', 2, 0), ('2', 2, 1), ('3', 2, 2), ('-', 2, 3),
+            ('0', 3, 0), ('.', 3, 1), ('=', 3, 2), ('+', 3, 3)
         ]
 
-        # Add buttons to the grid
-        for (text, row, col) in buttons:
-            button = tk.Button(self.root, text=text, font=("Arial", 18), bd=5, command=lambda t=text: self.on_button_click(t))
-            button.grid(row=row, column=col, sticky="nsew")
+        for text, row, col in buttons:
+            button = QPushButton(text)
+            button.setStyleSheet("font-size: 20px;")
+            button.clicked.connect(lambda _, b=text: self.on_button_click(b))
+            grid_layout.addWidget(button, row, col)
 
-        # Make all buttons expand equally
-        for i in range(5):
-            self.root.grid_rowconfigure(i, weight=1)
-            self.root.grid_columnconfigure(i, weight=1)
+        # Layout
+        main_layout = QVBoxLayout()
+        main_layout.addWidget(self.display)
+        main_layout.addLayout(grid_layout)
+        self.setLayout(main_layout)
 
-    def on_button_click(self, button_text):
-        current_text = self.display.get()
-        if button_text == '=':
+    def on_button_click(self, char):
+        if char == "=":
             try:
-                result = eval(current_text)
-                self.display.delete(0, tk.END)
-                self.display.insert(tk.END, str(result))
-            except Exception as e:
-                self.display.delete(0, tk.END)
-                self.display.insert(tk.END, "Error")
+                result = eval(self.display.text())
+                self.display.setText(str(result))
+            except:
+                self.display.setText("Error")
         else:
-            self.display.insert(tk.END, button_text)
+            self.display.setText(self.display.text() + char)
 
-# Create Tkinter root window
-root = tk.Tk()
-
-# Initialize Calculator
-calc = Calculator(root)
-
-# Run Tkinter main loop
-root.mainloop()
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    calc = Calculator()
+    calc.show()
+    sys.exit(app.exec_())
