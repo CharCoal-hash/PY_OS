@@ -1,0 +1,21 @@
+import psutil
+import tkinter as tk
+
+def show_system_info():
+    root = tk.Tk()
+    root.title("System Monitor")
+
+    # Get system stats
+    cpu_usage = psutil.cpu_percent(interval=1)
+    memory = psutil.virtual_memory()
+    memory_usage = memory.percent
+
+    # Display stats in the window
+    label = tk.Label(root, text=f"CPU Usage: {cpu_usage}%\nMemory Usage: {memory_usage}%", font=("Arial", 14))
+    label.pack(padx=20, pady=20)
+
+    # Run Tkinter event loop
+    root.mainloop()
+
+# Show system stats
+show_system_info()

@@ -1,0 +1,57 @@
+import tkinter as tk
+from tkinter import filedialog
+import os
+
+class FileManager:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("File Manager")
+        self.root.geometry("600x400")
+
+        # Create listbox to show files and directories
+        self.file_listbox = tk.Listbox(self.root, selectmode=tk.SINGLE, width=80, height=20)
+        self.file_listbox.pack(padx=10, pady=10)
+
+        # Show the initial directory
+        self.current_directory = os.getcwd()
+        self.show_files()
+
+        # Button to open selected file
+        self.open_button = tk.Button(self.root, text="Open File", command=self.open_selected_file)
+        self.open_button.pack(pady=5)
+
+        # Button to navigate to new folder
+        self.nav_button = tk.Button(self.root, text="Navigate to Directory", command=self.navigate_directory)
+        self.nav_button.pack(pady=5)
+
+    def show_files(self):
+        self.file_listbox.delete(0, tk.END)
+        for file in os.listdir(self.current_directory):
+            self.file_listbox.insert(tk.END, file)
+
+    def open_selected_file(self):
+        selected_file = self.file_listbox.get(tk.ACTIVE)
+        file_path = os.path.join(self.current_directory, selected_file)
+
+        if os.path.isdir(file_path):
+            self.current_directory = file_path
+            self.show_files()
+        else:
+            with open(file_path, 'r') as file:
+                content = file.read()
+                print(content)
+
+    def navigate_directory(self):
+        new_dir = filedialog.askdirectory(initialdir=self.current_directory)
+        if new_dir:
+            self.current_directory = new_dir
+            self.show_files()
+
+# Create Tkinter root window
+root = tk.Tk()
+
+# Initialize File Manager
+file_manager = FileManager(root)
+
+# Run Tkinter main loop
+root.mainloop()

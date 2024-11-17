@@ -1,0 +1,12 @@
+import tkinter as tk
+import webview
+
+def open_browser(url="https://www.example.com"):
+    # Create the window for the webview
+    webview.create_window("Simple Browser", url)
+
+    # Start the webview
+    webview.start()
+
+# Start the browser with a default URL
+open_browser("https://www.example.com")
