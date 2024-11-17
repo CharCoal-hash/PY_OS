@@ -1,38 +1,27 @@
-def display_help():
+def show_help():
     help_text = """
-    PY_OS Help
-
-    Available Commands:
+    PY_OS Help - Available Commands:
+    Type 'help <command>' for more details on any command or application.
     
-    1. list_files.pyoscmd - List all files in Z:\\
-    2. cd.pyoscmd - Change the directory.
-    3. mkdir.pyoscmd - Create a new directory.
-    4. del.pyoscmd - Delete a file.
-    5. create_file.pyoscmd - Create a new file.
-    6. list_dirs.pyoscmd - List directories in Z:\\
-    7. copy.pyoscmd - Copy a file from source to destination.
-    8. move.pyoscmd - Move a file from source to destination.
-    9. sysinfo.pyoscmd - Get system information.
-    10. exit - Exit the PY_OS Kernel.
+    Available Commands:
+    - list_files.pyoscmd - List all files in Z:\\
+    - cd.pyoscmd - Change the current directory.
+    - mkdir.pyoscmd - Create a new directory.
+    - del.pyoscmd - Delete a specified file.
+    - create_file.pyoscmd - Create a new text file in the current directory.
+    - list_dirs.pyoscmd - List all directories in Z:\\
+    - copy.pyoscmd - Copy a file from the source path to the destination path.
+    - move.pyoscmd - Move a file from the source path to the destination path.
+    - sysinfo.pyoscmd - Display system information like CPU and memory usage.
+    - exit - Exit the PY_OS Kernel.
     
     PY_OS Applications:
-    
-    11. text_editor.pyoscmd - A simple text editor for creating, editing, opening, and saving text files.
-    12. browser.pyoscmd - A lightweight embedded browser to browse the web. Default URL: https://www.example.com
-    13. file_manager.pyoscmd - A basic file manager to navigate directories and open text files.
-    14. system_monitor.pyoscmd - Displays CPU and memory usage statistics in a simple window.
-    15. calculator.pyoscmd - A basic calculator for performing arithmetic operations.
-
-    Usage:
-    - To run an application or command, use the respective `.pyoscmd` file.
-    - Ensure the application files are in the correct directory (e.g., `System32`) for proper execution.
-    - Type `exit` to close the PY_OS Kernel.
-
-    Tips:
-    - Use the `help` command for more details on any specific application.
-    - For browsing or file management, make sure to have internet access or required permissions for file access.
-
+    - text_editor.pyoscmd - A simple text editor for creating, editing, and saving text files.
+    - browser.pyoscmd - A lightweight embedded browser to browse the web.
+    - file_manager.pyoscmd - A basic file manager for navigating directories and opening text files.
+    - system_monitor.pyoscmd - Displays system usage statistics.
+    - calculator.pyoscmd - A basic calculator for performing arithmetic operations.
+    """
     print(help_text)
 
-# Call the display_help function
-display_help()
+show_help()

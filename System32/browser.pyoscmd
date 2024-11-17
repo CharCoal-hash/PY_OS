@@ -1,12 +1,54 @@
-import tkinter as tk
-import pywebview as webview
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtWebEngineWidgets import *
+import sys
 
-def open_browser(url="https://www.example.com"):
-    # Create the window for the webview
-    webview.create_window("Simple Browser", url)
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
 
-    # Start the webview
-    webview.start()
+        self.browser = QWebEngineView()
+        self.browser.setUrl(QUrl("http://example.com"))
+        self.setCentralWidget(self.browser)
 
-# Start the browser with a default URL
-open_browser("https://www.example.com")
+        self.status = QStatusBar()
+        self.setStatusBar(self.status)
+
+        navtb = QToolBar("Navigation")
+        self.addToolBar(navtb)
+
+        back_btn = QAction("Back", self)
+        back_btn.triggered.connect(self.browser.back)
+        navtb.addAction(back_btn)
+
+        next_btn = QAction("Forward", self)
+        next_btn.triggered.connect(self.browser.forward)
+        navtb.addAction(next_btn)
+
+        reload_btn = QAction("Reload", self)
+        reload_btn.triggered.connect(self.browser.reload)
+        navtb.addAction(reload_btn)
+
+        home_btn = QAction("Home", self)
+        home_btn.triggered.connect(self.navigate_home)
+        navtb.addAction(home_btn)
+
+        self.urlbar = QLineEdit()
+        self.urlbar.returnPressed.connect(self.navigate_to_url)
+        navtb.addWidget(self.urlbar)
+
+        self.show()
+
+    def navigate_home(self):
+        self.browser.setUrl(QUrl("http://www.google.com"))
+
+    def navigate_to_url(self):
+        url = QUrl(self.urlbar.text())
+        if not url.scheme():
+            url.setScheme("http")
+        self.browser.setUrl(url)
+
+app = QApplication(sys.argv)
+window = MainWindow()
+app.exec_()

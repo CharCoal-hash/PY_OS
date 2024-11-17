@@ -1,21 +1,34 @@
 import psutil
-import tkinter as tk
+import time
+from PyQt5.QtWidgets import QLabel, QVBoxLayout, QWidget, QApplication
 
-def show_system_info():
-    root = tk.Tk()
-    root.title("System Monitor")
+class SystemMonitor(QWidget):
+    def __init__(self):
+        super().__init__()
 
-    # Get system stats
-    cpu_usage = psutil.cpu_percent(interval=1)
-    memory = psutil.virtual_memory()
-    memory_usage = memory.percent
+        self.cpu_label = QLabel("CPU Usage: ")
+        self.memory_label = QLabel("Memory Usage: ")
 
-    # Display stats in the window
-    label = tk.Label(root, text=f"CPU Usage: {cpu_usage}%\nMemory Usage: {memory_usage}%", font=("Arial", 14))
-    label.pack(padx=20, pady=20)
+        layout = QVBoxLayout()
+        layout.addWidget(self.cpu_label)
+        layout.addWidget(self.memory_label)
 
-    # Run Tkinter event loop
-    root.mainloop()
+        self.setLayout(layout)
+        self.setWindowTitle('System Monitor')
 
-# Show system stats
-show_system_info()
+        self.update_stats()
+
+    def update_stats(self):
+        while True:
+            cpu_usage = psutil.cpu_percent()
+            memory_usage = psutil.virtual_memory().percent
+
+            self.cpu_label.setText(f"CPU Usage: {cpu_usage}%")
+            self.memory_label.setText(f"Memory Usage: {memory_usage}%")
+
+            time.sleep(1)
+
+app = QApplication([])
+monitor = SystemMonitor()
+monitor.show()
+app.exec_()

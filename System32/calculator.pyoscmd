@@ -1,55 +1,32 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLineEdit, QPushButton, QGridLayout
-from PyQt5.QtCore import Qt  # Import Qt for alignment constants
+from PyQt5.QtWidgets import QApplication, QLineEdit, QVBoxLayout, QPushButton, QWidget
 
 class Calculator(QWidget):
     def __init__(self):
         super().__init__()
-        self.initUI()
 
-    def initUI(self):
-        self.setWindowTitle("PyQt5 Calculator")
-        self.setGeometry(100, 100, 300, 400)
+        self.result = QLineEdit()
 
-        # Display area
-        self.display = QLineEdit(self)
-        self.display.setReadOnly(True)
-        self.display.setAlignment(Qt.AlignRight)  # Align text to the right
-        self.display.setStyleSheet("font-size: 20px;")
-
-        # Button grid
-        grid_layout = QGridLayout()
         buttons = [
-            ('7', 0, 0), ('8', 0, 1), ('9', 0, 2), ('/', 0, 3),
-            ('4', 1, 0), ('5', 1, 1), ('6', 1, 2), ('*', 1, 3),
-            ('1', 2, 0), ('2', 2, 1), ('3', 2, 2), ('-', 2, 3),
-            ('0', 3, 0), ('.', 3, 1), ('=', 3, 2), ('+', 3, 3)
+            ['7', '8', '9', '/'],
+            ['4', '5', '6', '*'],
+            ['1', '2', '3', '-'],
+            ['0', '.', '=', '+']
         ]
 
-        for text, row, col in buttons:
-            button = QPushButton(text)
-            button.setStyleSheet("font-size: 20px;")
-            button.clicked.connect(lambda _, b=text: self.on_button_click(b))
-            grid_layout.addWidget(button, row, col)
+        layout = QVBoxLayout()
+        layout.addWidget(self.result)
 
-        # Layout
-        main_layout = QVBoxLayout()
-        main_layout.addWidget(self.display)
-        main_layout.addLayout(grid_layout)
-        self.setLayout(main_layout)
+        for row in buttons:
+            button_layout = QVBoxLayout()
+            for button in row:
+                btn = QPushButton(button)
+                button_layout.addWidget(btn)
+            layout.addLayout(button_layout)
 
-    def on_button_click(self, char):
-        if char == "=":
-            try:
-                result = eval(self.display.text())
-                self.display.setText(str(result))
-            except:
-                self.display.setText("Error")
-        else:
-            self.display.setText(self.display.text() + char)
+        self.setLayout(layout)
+        self.setWindowTitle('Calculator')
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    calc = Calculator()
-    calc.show()
-    sys.exit(app.exec_())
+app = QApplication([])
+calculator = Calculator()
+calculator.show()
+app.exec_()
