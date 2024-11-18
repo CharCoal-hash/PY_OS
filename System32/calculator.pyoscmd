@@ -1,32 +1,73 @@
-from PyQt5.QtWidgets import QApplication, QLineEdit, QVBoxLayout, QPushButton, QWidget
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QGridLayout, QPushButton, QLineEdit
+from PyQt5.QtCore import Qt
 
 class Calculator(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.result = QLineEdit()
+        self.setWindowTitle("Calculator")
+        self.setGeometry(100, 100, 300, 400)
 
+        # Setting the layout
+        self.layout = QVBoxLayout()
+        self.grid_layout = QGridLayout()
+
+        # Display for the calculator
+        self.result_display = QLineEdit(self)
+        self.result_display.setReadOnly(True)
+        self.result_display.setAlignment(Qt.AlignRight)
+        self.result_display.setStyleSheet("font-size: 24px; padding: 10px;")
+        self.layout.addWidget(self.result_display)
+
+        # Buttons layout
         buttons = [
-            ['7', '8', '9', '/'],
-            ['4', '5', '6', '*'],
-            ['1', '2', '3', '-'],
-            ['0', '.', '=', '+']
+            ('7', 1, 0), ('8', 1, 1), ('9', 1, 2), ('/', 1, 3),
+            ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3),
+            ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3),
+            ('0', 4, 0), ('.', 4, 1), ('=', 4, 2), ('+', 4, 3),
+            ('CLR', 0, 3)
         ]
 
-        layout = QVBoxLayout()
-        layout.addWidget(self.result)
+        # Add buttons to grid layout
+        for btn_text, row, col in buttons:
+            button = QPushButton(btn_text)
+            button.setStyleSheet("font-size: 20px; padding: 15px;")
+            if btn_text == 'CLR':
+                button.clicked.connect(self.clear_display)  # CLR button functionality
+            elif btn_text == '=':
+                button.clicked.connect(self.calculate_result)  # Equals button functionality
+            else:
+                button.clicked.connect(self.button_click)
+            self.grid_layout.addWidget(button, row, col)
 
-        for row in buttons:
-            button_layout = QVBoxLayout()
-            for button in row:
-                btn = QPushButton(button)
-                button_layout.addWidget(btn)
-            layout.addLayout(button_layout)
+        self.layout.addLayout(self.grid_layout)
+        self.setLayout(self.layout)
 
-        self.setLayout(layout)
-        self.setWindowTitle('Calculator')
+        self.current_input = ""
 
-app = QApplication([])
-calculator = Calculator()
-calculator.show()
-app.exec_()
+    def button_click(self):
+        sender = self.sender()
+        self.current_input += sender.text()
+        self.result_display.setText(self.current_input)
+
+    def clear_display(self):
+        """Clear the input field."""
+        self.current_input = ""
+        self.result_display.clear()
+
+    def calculate_result(self):
+        """Evaluate the mathematical expression."""
+        try:
+            result = eval(self.current_input)
+            self.result_display.setText(str(result))
+            self.current_input = str(result)  # Keep the result for further operations
+        except Exception as e:
+            self.result_display.setText("Error")
+            self.current_input = ""
+
+# Run the application
+app = QApplication(sys.argv)
+window = Calculator()
+window.show()
+sys.exit(app.exec_())

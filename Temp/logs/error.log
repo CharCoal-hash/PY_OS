@@ -1,0 +1,6 @@
+Running: updater.pyoscmd
+[FAILED] Error executing updater.pyoscmd: Traceback (most recent call last):
+  File "Z:\PY_OS\system32\updater.pyoscmd", line 2, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+

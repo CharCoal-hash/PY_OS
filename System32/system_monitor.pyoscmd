@@ -1,34 +1,12 @@
+# system_monitor.pyoscmd
 import psutil
-import time
-from PyQt5.QtWidgets import QLabel, QVBoxLayout, QWidget, QApplication
 
-class SystemMonitor(QWidget):
-    def __init__(self):
-        super().__init__()
+# Gathering system info
+cpu_percent = psutil.cpu_percent(interval=1)
+virtual_memory = psutil.virtual_memory()
+disk_usage = psutil.disk_usage('/')
 
-        self.cpu_label = QLabel("CPU Usage: ")
-        self.memory_label = QLabel("Memory Usage: ")
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.cpu_label)
-        layout.addWidget(self.memory_label)
-
-        self.setLayout(layout)
-        self.setWindowTitle('System Monitor')
-
-        self.update_stats()
-
-    def update_stats(self):
-        while True:
-            cpu_usage = psutil.cpu_percent()
-            memory_usage = psutil.virtual_memory().percent
-
-            self.cpu_label.setText(f"CPU Usage: {cpu_usage}%")
-            self.memory_label.setText(f"Memory Usage: {memory_usage}%")
-
-            time.sleep(1)
-
-app = QApplication([])
-monitor = SystemMonitor()
-monitor.show()
-app.exec_()
+# Displaying system info
+print(f"CPU Usage: {cpu_percent}%")
+print(f"Memory Usage: {virtual_memory.percent}%")
+print(f"Disk Usage: {disk_usage.percent}%")
