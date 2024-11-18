@@ -1,54 +1,132 @@
+import sys
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtWebEngineWidgets import *
-import sys
+from PyQt5.QtPrintSupport import *
 
+# Creating the main window class
 class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
 
+    def __init__(self, *args, **kwargs):
+        super(MainWindow, self).__init__(*args, **kwargs)
+
+        # Retro style for the main window
+        self.setWindowTitle("Retro Browser")
+        self.setStyleSheet("""
+            QMainWindow {
+                background-color: #F0E6D6;
+                border: 3px solid #A28C6C;
+            }
+            QToolBar {
+                background-color: #A28C6C;
+                border: 1px solid #7E6A45;
+            }
+            QToolBar QToolButton {
+                background-color: #D1B88C;
+                border: 2px solid #7E6A45;
+                font-family: "Courier New";
+                font-size: 16px;
+                padding: 8px;
+                border-radius: 5px;
+            }
+            QToolBar QToolButton:hover {
+                background-color: #C3A16F;
+            }
+            QLineEdit {
+                background-color: #D1B88C;
+                border: 2px solid #7E6A45;
+                font-family: "Courier New";
+                font-size: 16px;
+                padding: 4px;
+                border-radius: 5px;
+            }
+            QLineEdit:focus {
+                background-color: #C3A16F;
+            }
+            QLabel {
+                font-family: "Courier New";
+                font-size: 14px;
+                color: #3B3B3B;
+            }
+        """)
+
+        # creating a QWebEngineView for the browser
         self.browser = QWebEngineView()
-        self.browser.setUrl(QUrl("http://example.com"))
+        self.browser.setUrl(QUrl("http://google.com"))
+        self.browser.urlChanged.connect(self.update_urlbar)
+        self.browser.loadFinished.connect(self.update_title)
         self.setCentralWidget(self.browser)
 
+        # Creating the status bar
         self.status = QStatusBar()
         self.setStatusBar(self.status)
 
+        # Adding navigation toolbar
         navtb = QToolBar("Navigation")
         self.addToolBar(navtb)
 
-        back_btn = QAction("Back", self)
+        # Adding actions to the toolbar with retro design
+        back_btn = QAction("← Back", self)
+        back_btn.setStatusTip("Back to previous page")
         back_btn.triggered.connect(self.browser.back)
         navtb.addAction(back_btn)
 
-        next_btn = QAction("Forward", self)
+        next_btn = QAction("→ Forward", self)
+        next_btn.setStatusTip("Forward to next page")
         next_btn.triggered.connect(self.browser.forward)
         navtb.addAction(next_btn)
 
-        reload_btn = QAction("Reload", self)
+        reload_btn = QAction("⟳ Reload", self)
+        reload_btn.setStatusTip("Reload page")
         reload_btn.triggered.connect(self.browser.reload)
         navtb.addAction(reload_btn)
 
-        home_btn = QAction("Home", self)
+        home_btn = QAction("🏠 Home", self)
+        home_btn.setStatusTip("Go home")
         home_btn.triggered.connect(self.navigate_home)
         navtb.addAction(home_btn)
+
+        navtb.addSeparator()
 
         self.urlbar = QLineEdit()
         self.urlbar.returnPressed.connect(self.navigate_to_url)
         navtb.addWidget(self.urlbar)
 
+        stop_btn = QAction("✖ Stop", self)
+        stop_btn.setStatusTip("Stop loading current page")
+        stop_btn.triggered.connect(self.browser.stop)
+        navtb.addAction(stop_btn)
+
         self.show()
 
+    # Method to update the title of the window
+    def update_title(self):
+        title = self.browser.page().title()
+        self.setWindowTitle(f"{title} - Retro Browser")
+
+    # Method to navigate to the home page
     def navigate_home(self):
         self.browser.setUrl(QUrl("http://www.google.com"))
 
+    # Method for handling URL input in the address bar
     def navigate_to_url(self):
-        url = QUrl(self.urlbar.text())
-        if not url.scheme():
-            url.setScheme("http")
-        self.browser.setUrl(url)
+        q = QUrl(self.urlbar.text())
+        if q.scheme() == "":
+            q.setScheme("http")
+        self.browser.setUrl(q)
 
+    # Method to update the URL bar when the URL changes
+    def update_urlbar(self, q):
+        self.urlbar.setText(q.toString())
+        self.urlbar.setCursorPosition(0)
+
+# Creating the PyQt5 application
 app = QApplication(sys.argv)
+app.setApplicationName("Retro Browser")
+
+# Creating a main window object
 window = MainWindow()
+
+# Running the application loop
 app.exec_()
