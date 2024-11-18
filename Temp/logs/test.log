@@ -1,0 +1,64 @@
+Running: list_files.pyoscmd
+[OK] list_files.pyoscmd executed successfully.
+Output: Files in Z:\:
+$RECYCLE.BIN
+.gitignore
+PY_OS
+System Volume Information
+
+Running: cd.pyoscmd
+[OK] cd.pyoscmd executed successfully.
+Output: Changed directory to Z:\PY_OS
+
+Running: mkdir.pyoscmd
+[OK] mkdir.pyoscmd executed successfully.
+Output: Directory Z:\PY_OS\NewFolder created successfully.
+
+Running: del.pyoscmd
+[OK] del.pyoscmd executed successfully.
+Output: Error deleting file: [WinError 2] The system cannot find the file specified: 'Z:\\PY_OS\\Temp\\tempfile.txt'
+
+Running: create_file.pyoscmd
+[OK] create_file.pyoscmd executed successfully.
+Output: Directories in Z:\:
+$RECYCLE.BIN
+PY_OS
+System Volume Information
+
+Running: list_dirs.pyoscmd
+[OK] list_dirs.pyoscmd executed successfully.
+Output: Error copying file: [Errno 2] No such file or directory: 'Z:\\PY_OS\\Documents\\new_file.txt'
+
+Running: copy.pyoscmd
+[OK] copy.pyoscmd executed successfully.
+Output: Error moving file: [Errno 2] No such file or directory: 'Z:\\PY_OS\\Documents\\new_file.txt'
+
+Running: move.pyoscmd
+[OK] move.pyoscmd executed successfully.
+Output: System Information:
+System: Windows
+Node Name: DESKTOP-9K2D1S4
+Release: 10
+Version: 10.0.22631
+Machine: AMD64
+Processor: Intel64 Family 6 Model 142 Stepping 12, GenuineIntel
+
+Running: sysinfo.pyoscmd
+[OK] sysinfo.pyoscmd executed successfully.
+Output: System Information:
+System: Windows
+Node Name: DESKTOP-9K2D1S4
+Release: 10
+Version: 10.0.22631
+Machine: AMD64
+Processor: Intel64 Family 6 Model 142 Stepping 12, GenuineIntel
+
+Running: text_editor.pyoscmd
+[OK] text_editor.pyoscmd executed successfully.
+Output: 
+Running: browser.pyoscmd
+[OK] browser.pyoscmd executed successfully.
+Output: 
+Running: file_manager.pyoscmd
+[OK] file_manager.pyoscmd executed successfully.
+Output: 
