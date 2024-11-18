@@ -1,27 +1,25 @@
-def show_help():
-    help_text = """
-    PY_OS Help - Available Commands:
-    Type 'help <command>' for more details on any command or application.
-    
-    Available Commands:
-    - list_files.pyoscmd - List all files in Z:\\
-    - cd.pyoscmd - Change the current directory.
-    - mkdir.pyoscmd - Create a new directory.
-    - del.pyoscmd - Delete a specified file.
-    - create_file.pyoscmd - Create a new text file in the current directory.
-    - list_dirs.pyoscmd - List all directories in Z:\\
-    - copy.pyoscmd - Copy a file from the source path to the destination path.
-    - move.pyoscmd - Move a file from the source path to the destination path.
-    - sysinfo.pyoscmd - Display system information like CPU and memory usage.
-    - exit - Exit the PY_OS Kernel.
-    
-    PY_OS Applications:
-    - text_editor.pyoscmd - A simple text editor for creating, editing, and saving text files.
-    - browser.pyoscmd - A lightweight embedded browser to browse the web.
-    - file_manager.pyoscmd - A basic file manager for navigating directories and opening text files.
-    - system_monitor.pyoscmd - Displays system usage statistics.
-    - calculator.pyoscmd - A basic calculator for performing arithmetic operations.
-    """
-    print(help_text)
+ # help.pyoscmd
 
+def show_help():
+    print("PY_OS Help")
+    print("------------")
+    print("Commands:")
+    print("  list_files.pyoscmd      - List files in the current directory")
+    print("  cd.pyoscmd              - Change directory")
+    print("  mkdir.pyoscmd           - Create a new directory")
+    print("  del.pyoscmd             - Delete a file")
+    print("  create_file.pyoscmd     - Create a new file")
+    print("  list_dirs.pyoscmd       - List directories in the current directory")
+    print("  copy.pyoscmd            - Copy a file")
+    print("  move.pyoscmd            - Move a file")
+    print("  sysinfo.pyoscmd         - Display system information")
+    print("  text_editor.pyoscmd     - Open the text editor")
+    print("  browser.pyoscmd         - Open the browser")
+    print("  file_manager.pyoscmd    - Open the file manager")
+    print("  system_monitor.pyoscmd  - Launch system monitor")
+    print("  calculator.pyoscmd      - Open the calculator")
+    print("  updater.pyoscmd         - Update PY_OS from GitHub")
+    print("\nFor more details on a command, type 'help <command>'.")
+
+# Call the show_help function to display help
 show_help()
