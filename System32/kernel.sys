@@ -1,28 +1,32 @@
-import subprocess
 import sys
 import os
-import time
+import subprocess
 
-# Function to run the commands
-def run_command(command):
+# Ensure the log directory exists
+log_dir = r"Z:\PY_OS\Temp\logs"
+if not os.path.exists(log_dir):
+    os.makedirs(log_dir)
+
+# Function to log output and errors
+def log_output(file_path, message):
+    with open(file_path, "a") as log_file:
+        log_file.write(message + "\n")
+
+# Function to execute a command and log the results
+def execute_command(command):
     try:
-        if command.endswith('.pyoscmd'):
-            print(f"Running: {command}")
-            # Execute the .pyoscmd file using the Python interpreter
-            result = subprocess.run([sys.executable, command], check=True, capture_output=True, text=True)
-            print(f"[OK] {command} executed successfully.")
-            print(f"Output: {result.stdout}")
-        else:
-            print(f"[FAILED] {command} is not a valid .pyoscmd file.")
+        # Attempt to execute the command
+        result = subprocess.run([sys.executable, command], capture_output=True, text=True, check=True)
+        log_output(os.path.join(log_dir, 'test.log'), f"Running: {command}\n[OK] {command} executed successfully.\nOutput: {result.stdout}")
+        return result.stdout
     except subprocess.CalledProcessError as e:
-        print(f"[FAILED] Error executing {command}: {e}")
-        print(f"Error Output: {e.stderr}")
+        # Log the error if the command fails
+        log_output(os.path.join(log_dir, 'error.log'), f"Running: {command}\n[FAILED] Error executing {command}: {e.stderr}")
+        return f"Error: {e.stderr}"
 
-# Function to run tests for all commands and applications
-def test_commands_and_apps():
-    print("Testing PY_OS components...\n")
-    
-    commands = [
+# Function to perform tests on pyoscmd commands before running the main loop
+def test_commands():
+    commands_to_test = [
         'list_files.pyoscmd',
         'cd.pyoscmd',
         'mkdir.pyoscmd',
@@ -36,39 +40,41 @@ def test_commands_and_apps():
         'browser.pyoscmd',
         'file_manager.pyoscmd',
         'system_monitor.pyoscmd',
-        'calculator.pyoscmd'
+        'calculator.pyoscmd',
     ]
-
-    for command in commands:
+    
+    for command in commands_to_test:
         print(f"Testing {command}...")
-        run_command(command)
-        time.sleep(1)  # Short delay between tests for readability
+        output = execute_command(command)
+        print(output)
 
-# Function to initialize the kernel and perform the testing
-def initialize_kernel():
+# Main kernel loop
+def main():
+    # Initial greeting
     print("PY_OS Kernel Initializing...")
-    time.sleep(1)
     
-    # Testing all commands and apps before everything initializes
-    test_commands_and_apps()
-    
-    # Print completion message
-    print("\nInitialization Complete. Enter command (.pyoscmd):")
+    # Perform testing
+    test_commands()
 
-# Function to handle command input
-def handle_command_input():
+    # Main loop for taking and executing .pyoscmd commands
     while True:
+        # Ask for a command
         command = input("Enter command (.pyoscmd): ").strip()
         
-        if command == 'exit':
-            print("Shutting down PY_OS...")
+        # Break the loop if the user wants to exit
+        if command.lower() == "exit":
+            print("Exiting PY_OS Kernel.")
             break
-        elif command:
-            run_command(command)
-        else:
-            print("No command entered. Please try again.")
+        
+        # Ensure the command ends with .pyoscmd
+        if not command.endswith(".pyoscmd"):
+            print("Invalid command. Please enter a valid .pyoscmd command.")
+            continue
+        
+        # Log and execute the command
+        output = execute_command(command)
+        print(output)
 
-# Start kernel
+# Running the main kernel
 if __name__ == "__main__":
-    initialize_kernel()
-    handle_command_input()
+    main()
