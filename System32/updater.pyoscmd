@@ -1,86 +1,54 @@
 import os
-import requests
 import zipfile
-import shutil
-from urllib.parse import urljoin
+import hashlib
 
-# Define the repository URL where updates are stored
-REPO_URL = "https://github.com/CharCoal-hash/PY_OS/"
-UPDATE_FILE = "update.upd"
-TEMP_DIR = "Z:/PY_OS/Temp"
-UPDATE_DIR = "Z:/PY_OS/Updates"
-LOG_FILE = os.path.join(TEMP_DIR, "logs", "update_log.txt")
+def calculate_hash(file_path):
+    """Calculate MD5 hash of a file."""
+    hash_md5 = hashlib.md5()
+    with open(file_path, "rb") as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hash_md5.update(chunk)
+    return hash_md5.hexdigest()
 
-# Function to log messages to the log file
-def log(message):
-    with open(LOG_FILE, "a") as log_file:
-        log_file.write(message + "\n")
-
-# Function to download the update file
-def download_update_file():
-    try:
-        response = requests.get(urljoin(REPO_URL, UPDATE_FILE))
-        response.raise_for_status()  # Raise an exception for bad responses
-        with open(os.path.join(TEMP_DIR, UPDATE_FILE), "wb") as file:
-            file.write(response.content)
-        log("Successfully downloaded the update file.")
-    except requests.exceptions.RequestException as e:
-        log(f"Error downloading the update file: {e}")
-        return False
-    return True
-
-# Function to check for updates based on version (optional)
-def check_for_update():
-    # This can be customized based on how version info is stored.
-    # For example, check the version number in the update file.
-    # For simplicity, this will skip version checks for now.
-    return True
-
-# Function to apply the update (download and replace files)
-def apply_update():
-    if not os.path.exists(UPDATE_DIR):
-        os.makedirs(UPDATE_DIR)
-
-    try:
-        # Example: Assuming the update is a zip file containing new files
-        update_zip_path = os.path.join(TEMP_DIR, UPDATE_FILE)
-        with zipfile.ZipFile(update_zip_path, 'r') as zip_ref:
-            zip_ref.extractall(UPDATE_DIR)
-        log(f"Update files extracted to {UPDATE_DIR}.")
-        
-        # Replace old files with the new ones
-        # Here we assume the update files overwrite the old files
-        for file_name in os.listdir(UPDATE_DIR):
-            source = os.path.join(UPDATE_DIR, file_name)
-            destination = os.path.join("Z:/PY_OS", file_name)  # Adjust this path as needed
-            if os.path.exists(destination):
-                shutil.move(destination, destination + ".bak")  # Backup old files
-            shutil.move(source, destination)
-        log("Update applied successfully.")
-    except Exception as e:
-        log(f"Error applying the update: {e}")
-        return False
-    return True
-
-# Function to run the update process
-def update_system():
-    log("Starting PY_OS update process...")
-
-    # Download the update file from the GitHub repository
-    if not download_update_file():
+def update_system(upd_file, target_dir):
+    """Update the system by replacing only modified or missing files."""
+    if not os.path.exists(upd_file):
+        print(f"[ERROR] .upd file not found: {upd_file}")
         return
 
-    # Check if an update is available (optional, can be customized)
-    if not check_for_update():
-        log("No update available.")
-        return
+    with zipfile.ZipFile(upd_file, "r") as zipf:
+        # Extract and parse the manifest
+        manifest = zipf.read("manifest.txt").decode().splitlines()
 
-    # Apply the update
-    if apply_update():
-        log("PY_OS updated successfully!")
-    else:
-        log("Update failed.")
+        for entry in manifest:
+            rel_path, hash_in_upd = entry.split(",")
+            target_path = os.path.join(target_dir, rel_path)
 
-# Run the update process
+            # Check if the file needs updating
+            if os.path.exists(target_path):
+                hash_current = calculate_hash(target_path)
+                if hash_current == hash_in_upd:
+                    print(f"[SKIP] File up-to-date: {rel_path}")
+                    continue
+            
+            # Replace the file
+            print(f"[UPDATE] Replacing file: {rel_path}")
+            os.makedirs(os.path.dirname(target_path), exist_ok=True)
+            with open(target_path, "wb") as f_out:
+                f_out.write(zipf.read(rel_path))
+
+        print("\n[INFO] Update process completed.")
+
+# Main script
 if __name__ == "__main__":
-    update_system()
+    print("\nWelcome to the PY_OS Updater!")
+    print("------------------------------------")
+    upd_file = input("Enter the path to the .upd file: ").strip()
+    target_dir = input("Enter the target directory for the update: ").strip()
+
+    if not upd_file.endswith(".upd"):
+        print("[ERROR] Invalid file type. Provide a .upd file.")
+    elif not os.path.exists(target_dir) or not os.path.isdir(target_dir):
+        print("[ERROR] Invalid target directory.")
+    else:
+        update_system(upd_file, target_dir)

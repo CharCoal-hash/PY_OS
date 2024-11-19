@@ -1,0 +1,60 @@
+import os
+import zipfile
+import hashlib
+
+def calculate_hash(file_path):
+    """Calculate MD5 hash of a file."""
+    hash_md5 = hashlib.md5()
+    with open(file_path, "rb") as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hash_md5.update(chunk)
+    return hash_md5.hexdigest()
+
+def generate_manifest(source_dir):
+    """Generate a manifest file with file paths and hashes."""
+    manifest = []
+    for root, _, files in os.walk(source_dir):
+        for file in files:
+            file_path = os.path.join(root, file)
+            rel_path = os.path.relpath(file_path, source_dir)
+            file_hash = calculate_hash(file_path)
+            manifest.append(f"{rel_path},{file_hash}")
+    return manifest
+
+def create_upd(source_dir, output_dir, version):
+    """Create a .upd file with the specified version."""
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    output_file = os.path.join(output_dir, f"PY_OS_v{version}.upd")
+    manifest = generate_manifest(source_dir)
+    manifest_path = os.path.join(source_dir, "manifest.txt")
+
+    # Save the manifest to a file
+    with open(manifest_path, "w") as f:
+        f.write("\n".join(manifest))
+
+    # Create the .upd file
+    with zipfile.ZipFile(output_file, "w", zipfile.ZIP_DEFLATED) as zipf:
+        # Add all files from the source directory
+        for root, _, files in os.walk(source_dir):
+            for file in files:
+                file_path = os.path.join(root, file)
+                rel_path = os.path.relpath(file_path, source_dir)
+                zipf.write(file_path, arcname=rel_path)
+    print(f".upd file created: {output_file}")
+
+# Main script
+if __name__ == "__main__":
+    print("\nWelcome to the .upd Generator!")
+    print("------------------------------------")
+    source_dir = input("Enter the source directory for the update files: ").strip()
+    output_dir = input("Enter the output directory to save the .upd file: ").strip()
+    version = input("Enter the version number (e.g., 1.0.0): ").strip()
+
+    if not source_dir or not os.path.isdir(source_dir):
+        print("[ERROR] Invalid source directory.")
+    elif not version.count(".") == 2:
+        print("[ERROR] Invalid version format. Use x.y.z (e.g., 1.0.0).")
+    else:
+        create_upd(source_dir, output_dir, version)

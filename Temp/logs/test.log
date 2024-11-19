@@ -348,3 +348,366 @@ Output:
 Running: updater.pyoscmd
 [OK] updater.pyoscmd executed successfully.
 Output: 
+Running: list_files.pyoscmd
+[OK] list_files.pyoscmd executed successfully.
+Output: Files in Z:\:
+$RECYCLE.BIN
+.gitignore
+PY_OS
+System Volume Information
+
+Running: cd.pyoscmd
+[OK] cd.pyoscmd executed successfully.
+Output: Changed directory to Z:\PY_OS
+
+Running: mkdir.pyoscmd
+[OK] mkdir.pyoscmd executed successfully.
+Output: Directory Z:\PY_OS\NewFolder created successfully.
+
+Running: del.pyoscmd
+[OK] del.pyoscmd executed successfully.
+Output: Error deleting file: [WinError 2] The system cannot find the file specified: 'Z:\\PY_OS\\Temp\\tempfile.txt'
+
+Running: create_file.pyoscmd
+[OK] create_file.pyoscmd executed successfully.
+Output: Directories in Z:\:
+$RECYCLE.BIN
+PY_OS
+System Volume Information
+
+Running: list_dirs.pyoscmd
+[OK] list_dirs.pyoscmd executed successfully.
+Output: Error copying file: [Errno 2] No such file or directory: 'Z:\\PY_OS\\Documents\\new_file.txt'
+
+Running: copy.pyoscmd
+[OK] copy.pyoscmd executed successfully.
+Output: Error moving file: [Errno 2] No such file or directory: 'Z:\\PY_OS\\Documents\\new_file.txt'
+
+Running: move.pyoscmd
+[OK] move.pyoscmd executed successfully.
+Output: System Information:
+System: Windows
+Node Name: DESKTOP-9K2D1S4
+Release: 10
+Version: 10.0.22631
+Machine: AMD64
+Processor: Intel64 Family 6 Model 142 Stepping 12, GenuineIntel
+
+Running: sysinfo.pyoscmd
+[OK] sysinfo.pyoscmd executed successfully.
+Output: System Information:
+System: Windows
+Node Name: DESKTOP-9K2D1S4
+Release: 10
+Version: 10.0.22631
+Machine: AMD64
+Processor: Intel64 Family 6 Model 142 Stepping 12, GenuineIntel
+
+Running: text_editor.pyoscmd
+[OK] text_editor.pyoscmd executed successfully.
+Output: 
+Running: browser.pyoscmd
+[OK] browser.pyoscmd executed successfully.
+Output: 
+Running: file_manager.pyoscmd
+[OK] file_manager.pyoscmd executed successfully.
+Output: 
+Running: system_monitor.pyoscmd
+[OK] system_monitor.pyoscmd executed successfully.
+Output: CPU Usage: 1.8%
+Memory Usage: 77.9%
+Disk Usage: 0.6%
+
+Running: calculator.pyoscmd
+[OK] calculator.pyoscmd executed successfully.
+Output: 
+Running: updater.pyoscmd
+[OK] updater.pyoscmd executed successfully.
+Output: 
+Running: list_files.pyoscmd
+[OK] list_files.pyoscmd executed successfully.
+Output: Files in Z:\:
+$RECYCLE.BIN
+.gitignore
+PY_OS
+System Volume Information
+
+Running: cd.pyoscmd
+[OK] cd.pyoscmd executed successfully.
+Output: Changed directory to Z:\PY_OS
+
+Running: mkdir.pyoscmd
+[OK] mkdir.pyoscmd executed successfully.
+Output: Directory Z:\PY_OS\NewFolder created successfully.
+
+Running: del.pyoscmd
+[OK] del.pyoscmd executed successfully.
+Output: Error deleting file: [WinError 2] The system cannot find the file specified: 'Z:\\PY_OS\\Temp\\tempfile.txt'
+
+Running: create_file.pyoscmd
+[OK] create_file.pyoscmd executed successfully.
+Output: Directories in Z:\:
+$RECYCLE.BIN
+PY_OS
+System Volume Information
+
+Running: list_dirs.pyoscmd
+[OK] list_dirs.pyoscmd executed successfully.
+Output: Error copying file: [Errno 2] No such file or directory: 'Z:\\PY_OS\\Documents\\new_file.txt'
+
+Running: copy.pyoscmd
+[OK] copy.pyoscmd executed successfully.
+Output: Error moving file: [Errno 2] No such file or directory: 'Z:\\PY_OS\\Documents\\new_file.txt'
+
+Running: move.pyoscmd
+[OK] move.pyoscmd executed successfully.
+Output: System Information:
+System: Windows
+Node Name: DESKTOP-9K2D1S4
+Release: 10
+Version: 10.0.22631
+Machine: AMD64
+Processor: Intel64 Family 6 Model 142 Stepping 12, GenuineIntel
+
+Running: sysinfo.pyoscmd
+[OK] sysinfo.pyoscmd executed successfully.
+Output: System Information:
+System: Windows
+Node Name: DESKTOP-9K2D1S4
+Release: 10
+Version: 10.0.22631
+Machine: AMD64
+Processor: Intel64 Family 6 Model 142 Stepping 12, GenuineIntel
+
+Running: text_editor.pyoscmd
+[OK] text_editor.pyoscmd executed successfully.
+Output: 
+Running: browser.pyoscmd
+[OK] browser.pyoscmd executed successfully.
+Output: 
+Running: file_manager.pyoscmd
+[OK] file_manager.pyoscmd executed successfully.
+Output: 
+Running: system_monitor.pyoscmd
+[OK] system_monitor.pyoscmd executed successfully.
+Output: CPU Usage: 17.0%
+Memory Usage: 71.4%
+Disk Usage: 0.6%
+
+Running: calculator.pyoscmd
+[OK] calculator.pyoscmd executed successfully.
+Output: 
+Running: help.pyoscmd
+[OK] help.pyoscmd executed successfully.
+Output: PY_OS Help
+------------
+Commands:
+  list_files.pyoscmd      - List files in the current directory
+  cd.pyoscmd              - Change directory
+  mkdir.pyoscmd           - Create a new directory
+  del.pyoscmd             - Delete a file
+  create_file.pyoscmd     - Create a new file
+  list_dirs.pyoscmd       - List directories in the current directory
+  copy.pyoscmd            - Copy a file
+  move.pyoscmd            - Move a file
+  sysinfo.pyoscmd         - Display system information
+  text_editor.pyoscmd     - Open the text editor
+  browser.pyoscmd         - Open the browser
+  file_manager.pyoscmd    - Open the file manager
+  system_monitor.pyoscmd  - Launch system monitor
+  calculator.pyoscmd      - Open the calculator
+  updater.pyoscmd         - Update PY_OS from GitHub
+
+For more details on a command, type 'help <command>'.
+
+Running: system_monitor.pyoscmd
+[OK] system_monitor.pyoscmd executed successfully.
+Output: CPU Usage: 0.0%
+Memory Usage: 70.8%
+Disk Usage: 0.6%
+
+Running: updater.pyoscmd
+[OK] updater.pyoscmd executed successfully.
+Output: 
+Running: calculator.pyoscmd
+[OK] calculator.pyoscmd executed successfully.
+Output: 
+Running: calculator.pyoscmd
+[OK] calculator.pyoscmd executed successfully.
+Output: 
+Running: calculator.pyoscmd
+[OK] calculator.pyoscmd executed successfully.
+Output: 
+Running: GUI.pyoscmd
+[OK] GUI.pyoscmd executed successfully.
+Output: 
+Running: list_files.pyoscmd
+[OK] list_files.pyoscmd executed successfully.
+Output: Files in Z:\:
+$RECYCLE.BIN
+.gitignore
+PY_OS
+System Volume Information
+
+Running: cd.pyoscmd
+[OK] cd.pyoscmd executed successfully.
+Output: Changed directory to Z:\PY_OS
+
+Running: mkdir.pyoscmd
+[OK] mkdir.pyoscmd executed successfully.
+Output: Directory Z:\PY_OS\NewFolder created successfully.
+
+Running: del.pyoscmd
+[OK] del.pyoscmd executed successfully.
+Output: Error deleting file: [WinError 2] The system cannot find the file specified: 'Z:\\PY_OS\\Temp\\tempfile.txt'
+
+Running: create_file.pyoscmd
+[OK] create_file.pyoscmd executed successfully.
+Output: Directories in Z:\:
+$RECYCLE.BIN
+PY_OS
+System Volume Information
+
+Running: list_dirs.pyoscmd
+[OK] list_dirs.pyoscmd executed successfully.
+Output: Error copying file: [Errno 2] No such file or directory: 'Z:\\PY_OS\\Documents\\new_file.txt'
+
+Running: copy.pyoscmd
+[OK] copy.pyoscmd executed successfully.
+Output: Error moving file: [Errno 2] No such file or directory: 'Z:\\PY_OS\\Documents\\new_file.txt'
+
+Running: move.pyoscmd
+[OK] move.pyoscmd executed successfully.
+Output: System Information:
+System: Windows
+Node Name: DESKTOP-9K2D1S4
+Release: 10
+Version: 10.0.22631
+Machine: AMD64
+Processor: Intel64 Family 6 Model 142 Stepping 12, GenuineIntel
+
+Running: sysinfo.pyoscmd
+[OK] sysinfo.pyoscmd executed successfully.
+Output: System Information:
+System: Windows
+Node Name: DESKTOP-9K2D1S4
+Release: 10
+Version: 10.0.22631
+Machine: AMD64
+Processor: Intel64 Family 6 Model 142 Stepping 12, GenuineIntel
+
+Running: text_editor.pyoscmd
+[OK] text_editor.pyoscmd executed successfully.
+Output: 
+Running: browser.pyoscmd
+[OK] browser.pyoscmd executed successfully.
+Output: 
+Running: file_manager.pyoscmd
+[OK] file_manager.pyoscmd executed successfully.
+Output: 
+Running: system_monitor.pyoscmd
+[OK] system_monitor.pyoscmd executed successfully.
+Output: CPU Usage: 3.9%
+Memory Usage: 78.7%
+Disk Usage: 0.6%
+
+Running: calculator.pyoscmd
+[OK] calculator.pyoscmd executed successfully.
+Output: 
+Running: udp_generator.pyoscmd
+[OK] udp_generator.pyoscmd executed successfully.
+Output: Welcome to the .upd Generator!
+------------------------------------
+Enter the source directory for the update files: Enter the output directory to save the .upd file: Enter the current version number (e.g., 1.0.0): [ERROR] Invalid current version format. Use x.y.z (e.g., 1.0.0).
+
+Running: udp_generator.pyoscmd
+[OK] udp_generator.pyoscmd executed successfully.
+Output: Welcome to the .upd Generator!
+------------------------------------
+Enter the source directory for the update files: Enter the output directory to save the .upd file: Enter the current version number (e.g., 1.0.0): [ERROR] Invalid current version format. Use x.y.z (e.g., 1.0.0).
+
+Running: udp_generator.pyoscmd
+[OK] udp_generator.pyoscmd executed successfully.
+Output: Welcome to the .upd Generator!
+------------------------------------
+Enter the source directory for the update files: Enter the output directory to save the .upd file: Enter the current version number (e.g., 1.0.0): [ERROR] Invalid current version format. Use x.y.z (e.g., 1.0.0).
+
+Running: udp_generator.pyoscmd
+[OK] udp_generator.pyoscmd executed successfully.
+Output: Welcome to the .upd Generator!
+------------------------------------
+Enter the source directory for the update files: Enter the output directory to save the .upd file: Enter the current version number (e.g., 1.0.0): [ERROR] Invalid current version format. Use x.y.z (e.g., 1.0.0).
+
+Running: list_files.pyoscmd
+[OK] list_files.pyoscmd executed successfully.
+Output: Files in Z:\:
+$RECYCLE.BIN
+.gitignore
+PY_OS
+System Volume Information
+
+Running: cd.pyoscmd
+[OK] cd.pyoscmd executed successfully.
+Output: Changed directory to Z:\PY_OS
+
+Running: mkdir.pyoscmd
+[OK] mkdir.pyoscmd executed successfully.
+Output: Directory Z:\PY_OS\NewFolder created successfully.
+
+Running: del.pyoscmd
+[OK] del.pyoscmd executed successfully.
+Output: Error deleting file: [WinError 2] The system cannot find the file specified: 'Z:\\PY_OS\\Temp\\tempfile.txt'
+
+Running: create_file.pyoscmd
+[OK] create_file.pyoscmd executed successfully.
+Output: Directories in Z:\:
+$RECYCLE.BIN
+PY_OS
+System Volume Information
+
+Running: list_dirs.pyoscmd
+[OK] list_dirs.pyoscmd executed successfully.
+Output: Error copying file: [Errno 2] No such file or directory: 'Z:\\PY_OS\\Documents\\new_file.txt'
+
+Running: copy.pyoscmd
+[OK] copy.pyoscmd executed successfully.
+Output: Error moving file: [Errno 2] No such file or directory: 'Z:\\PY_OS\\Documents\\new_file.txt'
+
+Running: move.pyoscmd
+[OK] move.pyoscmd executed successfully.
+Output: System Information:
+System: Windows
+Node Name: DESKTOP-9K2D1S4
+Release: 10
+Version: 10.0.22631
+Machine: AMD64
+Processor: Intel64 Family 6 Model 142 Stepping 12, GenuineIntel
+
+Running: sysinfo.pyoscmd
+[OK] sysinfo.pyoscmd executed successfully.
+Output: System Information:
+System: Windows
+Node Name: DESKTOP-9K2D1S4
+Release: 10
+Version: 10.0.22631
+Machine: AMD64
+Processor: Intel64 Family 6 Model 142 Stepping 12, GenuineIntel
+
+Running: text_editor.pyoscmd
+[OK] text_editor.pyoscmd executed successfully.
+Output: 
+Running: browser.pyoscmd
+[OK] browser.pyoscmd executed successfully.
+Output: 
+Running: file_manager.pyoscmd
+[OK] file_manager.pyoscmd executed successfully.
+Output: 
+Running: system_monitor.pyoscmd
+[OK] system_monitor.pyoscmd executed successfully.
+Output: CPU Usage: 2.6%
+Memory Usage: 77.9%
+Disk Usage: 0.6%
+
+Running: calculator.pyoscmd
+[OK] calculator.pyoscmd executed successfully.
+Output: 
