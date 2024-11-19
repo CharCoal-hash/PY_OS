@@ -25,7 +25,7 @@ def check_win(player):
 def is_full():
     return ' ' not in board
 
-# Minimax algorithm to determine the best move
+# Minimax algorithm to determine the best move (AI)
 def minimax(board, depth, is_maximizing):
     if check_win(AI):
         return 1
@@ -75,47 +75,102 @@ def print_board():
     print('--+---+--')
     print(f'{board[6]} | {board[7]} | {board[8]}')
 
-# Main function to play the game
-def play_game():
+# Reset the board
+def reset_board():
+    global board
+    board = [' ' for _ in range(9)]
+
+# Main function to play a single game
+def play_game(two_player_mode=False):
     print("Welcome to Tic-Tac-Toe!")
-    print("You are 'X' and the AI is 'O'.")
+    print("You are 'X' and the AI is 'O'." if not two_player_mode else "Player 1 is 'X' and Player 2 is 'O'.")
     print_board()
 
+    is_x_turn = True  # Player X starts first
+
     while True:
-        # Player's move
-        while True:
-            try:
-                player_move = int(input("Enter your move (1-9): ")) - 1
-                if board[player_move] == ' ':
-                    board[player_move] = PLAYER
-                    break
-                else:
-                    print("Invalid move! Cell already occupied.")
-            except (ValueError, IndexError):
-                print("Invalid input! Enter a number between 1 and 9.")
+        if two_player_mode:  # Two-player mode
+            while True:
+                try:
+                    player_move = int(input(f"Player {'X' if is_x_turn else 'O'}, enter your move (1-9): ")) - 1
+                    if board[player_move] == ' ':
+                        board[player_move] = 'X' if is_x_turn else 'O'
+                        break
+                    else:
+                        print("Invalid move! Cell already occupied.")
+                except (ValueError, IndexError):
+                    print("Invalid input! Enter a number between 1 and 9.")
+        else:  # AI vs player mode
+            if is_x_turn:  # Player's turn (X)
+                while True:
+                    try:
+                        player_move = int(input("Enter your move (1-9): ")) - 1
+                        if board[player_move] == ' ':
+                            board[player_move] = 'X'
+                            break
+                        else:
+                            print("Invalid move! Cell already occupied.")
+                    except (ValueError, IndexError):
+                        print("Invalid input! Enter a number between 1 and 9.")
+            else:  # AI's turn (O)
+                print("AI is making its move...")
+                move = ai_move()
+                board[move] = AI
 
         print_board()
 
-        if check_win(PLAYER):
-            print("Congratulations! You win!")
+        if check_win('X' if is_x_turn else 'O'):
+            print(f"Player {'X' if is_x_turn else 'O'} wins!")
             break
         elif is_full():
             print("It's a draw!")
             break
 
-        # AI's move
-        print("AI is making its move...")
-        move = ai_move()
-        board[move] = AI
-        print_board()
+        is_x_turn = not is_x_turn  # Switch turns
 
-        if check_win(AI):
-            print("AI wins! Better luck next time.")
-            break
-        elif is_full():
-            print("It's a draw!")
-            break
+# Tournament mode
+def tournament_mode(num_rounds=3):
+    player_x_wins = 0
+    player_o_wins = 0
+    draws = 0
 
-# Run the game
+    for round_num in range(1, num_rounds + 1):
+        print(f"\nRound {round_num}")
+        reset_board()
+        play_game(two_player_mode=False)  # AI vs Player
+        if check_win('X'):
+            player_x_wins += 1
+        elif check_win('O'):
+            player_o_wins += 1
+        else:
+            draws += 1
+        print(f"Score: Player X {player_x_wins} - {player_o_wins} Player O | Draws: {draws}")
+    
+    print(f"\nTournament Over! Final Score: Player X {player_x_wins} - {player_o_wins} Player O | Draws: {draws}")
+
+# Main menu to choose between modes
+def main():
+    while True:
+        print("\nTic-Tac-Toe Game Modes")
+        print("1. Single Game (AI vs Player)")
+        print("2. Two-Player Mode")
+        print("3. Tournament Mode")
+        print("4. Exit")
+
+        choice = input("Enter your choice (1-4): ")
+
+        if choice == '1':
+            play_game(two_player_mode=False)
+        elif choice == '2':
+            play_game(two_player_mode=True)
+        elif choice == '3':
+            num_rounds = int(input("Enter number of rounds for the tournament: "))
+            tournament_mode(num_rounds)
+        elif choice == '4':
+            print("Thanks for playing!")
+            break
+        else:
+            print("Invalid choice. Please select between 1-4.")
+
 if __name__ == "__main__":
-    play_game()
+    main()
