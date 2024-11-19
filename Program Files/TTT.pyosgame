@@ -1,97 +1,121 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGridLayout, QLabel, QVBoxLayout
-from PyQt5.QtCore import Qt
 import random
 
+# Define the Tic-Tac-Toe board
+board = [' ' for _ in range(9)]
 
-class TicTacToe(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.init_ui()
+# Define AI and player
+AI = 'O'
+PLAYER = 'X'
 
-    def init_ui(self):
-        self.setWindowTitle('Tic-Tac-Toe')
-        self.setGeometry(100, 100, 300, 350)
+# Winning combinations (index positions)
+winning_combinations = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8],  # Rows
+    [0, 3, 6], [1, 4, 7], [2, 5, 8],  # Columns
+    [0, 4, 8], [2, 4, 6]              # Diagonals
+]
 
-        # Initialize the game board
-        self.board = [""] * 9  # 9 cells, each will hold either "X", "O", or ""
+# Check if a player has won
+def check_win(player):
+    for combination in winning_combinations:
+        if board[combination[0]] == player and board[combination[1]] == player and board[combination[2]] == player:
+            return True
+    return False
 
-        # Create grid layout for buttons
-        self.grid = QGridLayout()
-        self.buttons = []
+# Check if the board is full (draw)
+def is_full():
+    return ' ' not in board
 
-        # Create the Tic-Tac-Toe board buttons
+# Minimax algorithm to determine the best move
+def minimax(board, depth, is_maximizing):
+    if check_win(AI):
+        return 1
+    elif check_win(PLAYER):
+        return -1
+    elif is_full():
+        return 0
+    
+    if is_maximizing:
+        best_score = float('-inf')
         for i in range(9):
-            button = QPushButton("")
-            button.setFixedSize(80, 80)
-            button.setFont(button.font().setPointSize(24))  # Large font for X or O
-            button.clicked.connect(lambda _, b=i: self.make_move(b))
-            self.buttons.append(button)
-            self.grid.addWidget(button, i // 3, i % 3)
+            if board[i] == ' ':
+                board[i] = AI
+                score = minimax(board, depth + 1, False)
+                board[i] = ' '
+                best_score = max(score, best_score)
+        return best_score
+    else:
+        best_score = float('inf')
+        for i in range(9):
+            if board[i] == ' ':
+                board[i] = PLAYER
+                score = minimax(board, depth + 1, True)
+                board[i] = ' '
+                best_score = min(score, best_score)
+        return best_score
 
-        # Create label for status
-        self.status_label = QLabel("Player X's turn")
-        self.status_label.setAlignment(Qt.AlignCenter)
+# AI move: Find the best possible move for the AI using the minimax algorithm
+def ai_move():
+    best_score = float('-inf')
+    best_move = None
+    for i in range(9):
+        if board[i] == ' ':
+            board[i] = AI
+            score = minimax(board, 0, False)
+            board[i] = ' '
+            if score > best_score:
+                best_score = score
+                best_move = i
+    return best_move
 
-        # Set the layout for the window
-        layout = QVBoxLayout()
-        layout.addWidget(self.status_label)
-        layout.addLayout(self.grid)
-        self.setLayout(layout)
+# Print the board
+def print_board():
+    print(f'{board[0]} | {board[1]} | {board[2]}')
+    print('--+---+--')
+    print(f'{board[3]} | {board[4]} | {board[5]}')
+    print('--+---+--')
+    print(f'{board[6]} | {board[7]} | {board[8]}')
 
-        # Variable to track whose turn it is (True for X, False for O)
-        self.is_x_turn = True
+# Main function to play the game
+def play_game():
+    print("Welcome to Tic-Tac-Toe!")
+    print("You are 'X' and the AI is 'O'.")
+    print_board()
 
-    def make_move(self, index):
-        """Make a move for the player"""
-        if self.board[index] == "" and not self.check_winner():
-            self.board[index] = "X" if self.is_x_turn else "O"
-            self.buttons[index].setText(self.board[index])
+    while True:
+        # Player's move
+        while True:
+            try:
+                player_move = int(input("Enter your move (1-9): ")) - 1
+                if board[player_move] == ' ':
+                    board[player_move] = PLAYER
+                    break
+                else:
+                    print("Invalid move! Cell already occupied.")
+            except (ValueError, IndexError):
+                print("Invalid input! Enter a number between 1 and 9.")
 
-            if self.check_winner():
-                winner = "X" if self.is_x_turn else "O"
-                self.status_label.setText(f"Player {winner} wins!")
-                return
+        print_board()
 
-            self.is_x_turn = not self.is_x_turn
-            self.status_label.setText(f"Player {'X' if self.is_x_turn else 'O'}'s turn")
+        if check_win(PLAYER):
+            print("Congratulations! You win!")
+            break
+        elif is_full():
+            print("It's a draw!")
+            break
 
-            if not self.is_x_turn:  # If it's O's turn, AI plays
-                self.ai_move()
+        # AI's move
+        print("AI is making its move...")
+        move = ai_move()
+        board[move] = AI
+        print_board()
 
-    def ai_move(self):
-        """Simple AI that picks a random empty spot"""
-        empty_indices = [i for i, x in enumerate(self.board) if x == ""]
-        if empty_indices:
-            ai_move = random.choice(empty_indices)
-            self.make_move(ai_move)
+        if check_win(AI):
+            print("AI wins! Better luck next time.")
+            break
+        elif is_full():
+            print("It's a draw!")
+            break
 
-    def check_winner(self):
-        """Check if there's a winner"""
-        # Winning combinations (indices of the board)
-        winning_combinations = [
-            [0, 1, 2],  # Top row
-            [3, 4, 5],  # Middle row
-            [6, 7, 8],  # Bottom row
-            [0, 3, 6],  # Left column
-            [1, 4, 7],  # Middle column
-            [2, 5, 8],  # Right column
-            [0, 4, 8],  # Diagonal from top-left to bottom-right
-            [2, 4, 6],  # Diagonal from top-right to bottom-left
-        ]
-
-        for combination in winning_combinations:
-            if self.board[combination[0]] == self.board[combination[1]] == self.board[combination[2]] != "":
-                return True
-        return False
-
-
-def main():
-    app = QApplication(sys.argv)
-    game = TicTacToe()
-    game.show()
-    sys.exit(app.exec_())
-
-
+# Run the game
 if __name__ == "__main__":
-    main()
+    play_game()
